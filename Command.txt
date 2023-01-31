@@ -1,0 +1,83 @@
+
+(venv) PS C:\Users\Zver\PycharmProjects\pythonProject25\NewsPaper> py manage.py shell
+Python 3.8.9 (tags/v3.8.9:a743f81, Apr  6 2021, 14:02:34) [MSC v.1928 64 bit (AMD64)] on win32 
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> from news.models import * 
+>>> u1 = User.objects.create_user(username='Ruslan') 
+>>> u1 
+<User: Ruslan> 
+>>> u1 = User.objects.create_user(username='Ruslan')  
+>>> u2 = User.objects.create_user(username='Petya') 
+>>> Author.objects.create(authorUser=u1) 
+<Author: Author object (1)> 
+>>> Category.objects.create(name='Footboll') 
+<Category: Category object (1)> 
+>>> Author.objects.create(authorUser=u2) 
+<Author: Author object (2)> 
+>>> Category.objects.create(name='basketboll') 
+<Category: Category object (2)> 
+>>> Category.objects.create(name='Voleyboll') 
+<Category: Category object (3)> 
+>>> Category.objects.create(name='Tennis') 
+<Category: Category object (4)> 
+>>> author = Author.objects.get(id=1) 
+>>> author 
+<Author: Author object (1)> 
+>>> Post.objects.create(author=author, categoryType='NW', title='sometitle', text='—партак„емпион') 
+<Post: Post object (1)> 
+>>> author2 = Author.objects.get(id=2) 
+>>> Post.objects.create(author=author2, categoryType='AR', title='Ћига„емпионов', text='ќќќќќќќќќќќќќќќчееееень много текста про Ћ„')  
+<Post: Post object (2)> 
+>>> Post.objects.create(author=author, categoryType='AR', title='Ћига≈вропы', text='ќќќќќќќќќќќќќќќчееееень много текста про Ћигу ≈вропы ')   
+<Post: Post object (3)> 
+>>> Post.objects.get(id=1).title 
+'sometitle' 
+>>> Comment.objects.create(commentPost=Post.objects.get(id=1), commentUser=Author.objects.get(id=1).authorUser, text='÷— ј „емпион') 
+<Comment: Comment object (1)> 
+>>> Comment.objects.create(commentPost=Post.objects.get(id=2), commentUser=Author.objects.get(id=1).authorUser, text='¬се италь€нские команды выбыли') 
+<Comment: Comment object (2)> 
+>>> Comment.objects.create(commentPost=Post.objects.get(id=1), commentUser=Author.objects.get(id=1).authorUser, text='«енит „емпион') 
+<Comment: Comment object (3)> 
+>>> Comment.objects.create(commentPost=Post.objects.get(id=3), commentUser=Author.objects.get(id=2).authorUser, text='¬се немецкие команды выбыли') 
+<Comment: Comment object (4)> 
+>>> Comment.objects.get(id=1).like() 
+>>> Comment.objects.get(id=1).rating 
+1 
+>>> Comment.objects.get(id=1).like() 
+>>> Comment.objects.get(id=1).like() 
+>>> Comment.objects.get(id=2).like() 
+>>> Comment.objects.get(id=1).dislike() 
+>>> Comment.objects.get(id=3).like() 
+>>> a = Author.objects.get(id=1) 
+>>> a.update_rating() 
+>>> a.ratingAuthor 
+4 
+>>> Post.objects.get(id=1).like() 
+>>> a.update_rating() 
+>>> a.ratingAuthor 
+7 
+>>> a = Author.objects.order_by('-ratingAuthor')[:1] 
+>>> a 
+<QuerySet [<Author: Author object (1)>]> 
+>>> a = Author.objects.order_by('-ratingAuthor') 
+>>> a 
+<QuerySet [<Author: Author object (1)>, <Author: Author object (2)>]> 
+>>> a = Author.objects.order_by('-ratingAuthor')[:1] 
+>>> for i in a: 
+...     i.ratingAuthor 
+...     i.authorUser.username 
+...  
+7 
+'Ruslan'
+>>> k = Post.objects.order_by('-rating')[:1] 
+ 
+datetime.datetime(2023, 1, 29, 20, 3, 25, 310035, tzinfo=datetime.timezone.utc) 
+>>> for i in k: 
+...     i.dateCreation 
+...     i.author 
+...     i.rating 
+...     i.title 
+...     i.preview() 
+...  
+
